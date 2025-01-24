@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.ECR" Version="4.0.0-preview.5" />
+    <PackageReference Include="AWSSDK.SecurityToken" Version="4.0.0-preview.5" />
+  </ItemGroup>
+
+</Project>
