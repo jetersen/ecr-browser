@@ -1,3 +1,4 @@
+using Ecr.Browser;
 using Ecr.Browser.Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddSingleton<EcrClient>();
 
 var app = builder.Build();
 
