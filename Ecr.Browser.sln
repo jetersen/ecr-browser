@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BDD11ED-1B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser", "src\Ecr.Browser\Ecr.Browser.csproj", "{DE0359E6-9149-43C9-85DA-0001A0E6AC1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser.Blazor", "src\Ecr.Browser.Blazor\Ecr.Browser.Blazor.csproj", "{BEE17DDE-70D1-42A7-B575-27A18CFC599A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser.Blazor", "src\Ecr.Browser.Blazor\Ecr.Browser.Blazor.csproj", "{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,13 +22,13 @@ Global
 		{DE0359E6-9149-43C9-85DA-0001A0E6AC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE0359E6-9149-43C9-85DA-0001A0E6AC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE0359E6-9149-43C9-85DA-0001A0E6AC1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEE17DDE-70D1-42A7-B575-27A18CFC599A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEE17DDE-70D1-42A7-B575-27A18CFC599A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEE17DDE-70D1-42A7-B575-27A18CFC599A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEE17DDE-70D1-42A7-B575-27A18CFC599A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DE0359E6-9149-43C9-85DA-0001A0E6AC1E} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
-		{BEE17DDE-70D1-42A7-B575-27A18CFC599A} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
+		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
 	EndGlobalSection
 EndGlobal
