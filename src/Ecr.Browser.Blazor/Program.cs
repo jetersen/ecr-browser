@@ -6,6 +6,7 @@ using Ecr.Browser.Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
 // Add MudBlazor services
 builder.Services.AddMudServices();
 
@@ -18,6 +19,8 @@ builder.Services.AddSingleton<EcrService>();
 builder.Services.AddScoped<ClipboardService>();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

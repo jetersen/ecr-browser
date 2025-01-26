@@ -7,10 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Ecr.Browser.ServiceDefaults\Ecr.Browser.ServiceDefaults.csproj" />
         <ProjectReference Include="..\Ecr.Browser\Ecr.Browser.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.0.0" />
         <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.0-preview.5" />
         <PackageReference Include="MudBlazor" Version="8.0.0"/>
     </ItemGroup>
