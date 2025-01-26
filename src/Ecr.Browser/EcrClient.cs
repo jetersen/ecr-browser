@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using Amazon.ECR;
-using Amazon.ECR.Model;
 using Microsoft.Extensions.Logging;
 
 namespace Ecr.Browser;
@@ -24,26 +23,6 @@ public class EcrClient
             ImageIds = batch.ImageIdentifiers,
             RepositoryName = batch.RepositoryName,
         }, cancellationToken);
-    }
-
-    public async Task RemoveImagesAsync(List<ImageDetailsDto> imageDetails, CancellationToken cancellationToken = default)
-    {
-        // Group by repository name and batch them in groups of 100 using Chunk
-        var imageDetailsByRepository = imageDetails
-            .GroupBy(x => x.RepositoryName)
-            .SelectMany(repository => repository
-                .Select(x => new ImageIdentifier { ImageDigest = x.ImageDigest })
-                .Chunk(100)
-                .Select(imageIdentifiers => new EcrBatchDelete
-                {
-                    RepositoryName = repository.Key,
-                    ImageIdentifiers = imageIdentifiers.ToList(),
-                }));
-
-        foreach (var batch in imageDetailsByRepository)
-        {
-            await RemoveImagesAsync(batch, cancellationToken);
-        }
     }
 
     public async IAsyncEnumerable<string> ListRepositoriesAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -75,6 +54,6 @@ public class EcrClient
             {
                 yield return image.ToDto(repositoryName);
             }
-        } while (string.IsNullOrEmpty(nextToken) is false);
+        } while (nextToken is not null);
     }
 }
