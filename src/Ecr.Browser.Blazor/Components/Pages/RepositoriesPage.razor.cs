@@ -12,7 +12,7 @@ public partial class RepositoriesPage
     [Inject] public required EcrService EcrService { get; set; }
     [Inject] public required IDialogService DialogService { get; set; }
 
-    private async Task RemoveImagesAsync()
+    private async Task RemoveImagesAsync(CancellationToken cancellationToken = default)
     {
         var selectedItems = _tableRef.Context.Selection;
         if (selectedItems.Count == 0)
@@ -41,24 +41,24 @@ public partial class RepositoriesPage
 
         foreach (var ecrBatchDelete in ecrBatchDeleteList)
         {
-            await EcrService.RemoveImageAsync(ecrBatchDelete);
+            await EcrService.RemoveImageAsync(ecrBatchDelete, cancellationToken);
             _deletionProgress += ecrBatchDelete.ImageIdentifiers.Count;
             StateHasChanged();
         }
-        EcrService.RemoveLocalImages(selectedItems);
+        await EcrService.RemoveLocalImages(selectedItems, cancellationToken);
         _tableRef.Context.Selection.Clear();
         _tableRef.Context.UpdateRowCheckBoxes();
         _tableRef.Context.TableStateHasChanged?.Invoke();
         StateHasChanged();
         await _tableRef.ReloadServerData();
         _showDeleteProgress = false;
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         StateHasChanged();
     }
 
-    private async Task RefreshData()
+    private async Task RefreshData(CancellationToken cancellationToken = default)
     {
-        EcrService.RefreshImages();
+        await EcrService.RefreshImages(cancellationToken);
         await _tableRef.ReloadServerData();
     }
 
@@ -92,15 +92,19 @@ public partial class RepositoriesPage
         {
             imageDetails = imageDetails.GroupBy(x => x.RepositoryName)
                 .Where(g => g.Count() > 1)
-                .SelectMany(g => g
-                    .OrderByDescending(x => x.ImagePulledAt ?? x.ImagePushedAt)
-                    .Skip(1)).ToList();
+                .SelectMany(g => g).ToList();
+        }
+
+        if (_skipFirstOne)
+        {
+            imageDetails = imageDetails.GroupBy(x => x.RepositoryName)
+                .SelectMany(x => x.OrderByDescending(y => y.ImagePulledAt ?? y.ImagePushedAt).Skip(1)).ToList();
         }
 
         if (_filterByMonth > 0)
         {
             var monthsSubtracted = DateTime.UtcNow.AddMonths(-_filterByMonth);
-            imageDetails = imageDetails.Where(x => x.ImagePulledAt == null || x.ImagePulledAt <= monthsSubtracted);
+            imageDetails = imageDetails.Where(x => (x.ImagePulledAt ?? x.ImagePushedAt) <= monthsSubtracted);
         }
 
         imageDetails = state.SortLabel switch
@@ -135,14 +139,9 @@ public partial class RepositoriesPage
     private bool _showDeleteProgress;
     private long _deletionProgress;
     private long _deletionTotal;
+    private bool _skipFirstOne;
 
-    private Task OnFilter(int i)
-    {
-        _filterByMonth = i;
-        return _tableRef.ReloadServerData();
-    }
-
-    private Task OnInclude()
+    private Task OnFilter()
     {
         return _tableRef.ReloadServerData();
     }

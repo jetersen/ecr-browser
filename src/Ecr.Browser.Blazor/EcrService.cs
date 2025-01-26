@@ -1,15 +1,25 @@
 using Amazon.ECR.Model;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Ecr.Browser.Blazor;
 
 public class EcrService
 {
     private readonly EcrClient _ecrClient;
-    private readonly List<ImageDetailsDto> _images = [];
+    private List<ImageDetailsDto> _images = [];
+    private readonly IFusionCache _cache;
+    private readonly FusionCacheEntryOptions _cacheOptions;
+    private const string CacheKey = "images";
 
-    public EcrService(EcrClient ecrClient)
+    public EcrService(EcrClient ecrClient, IFusionCache cache)
     {
         _ecrClient = ecrClient;
+        _cache = cache;
+        _cacheOptions = new()
+        {
+            Duration = TimeSpan.FromMinutes(5),
+            DistributedCacheDuration = TimeSpan.FromHours(1),
+        };
     }
 
     public List<EcrBatchDelete> GetBatchDeleteList(HashSet<ImageDetailsDto> images)
@@ -28,10 +38,10 @@ public class EcrService
             .ToList();
     }
 
-    public void RemoveLocalImages(HashSet<ImageDetailsDto> images)
+    public async Task RemoveLocalImages(HashSet<ImageDetailsDto> images, CancellationToken cancellationToken = default)
     {
-        // Remove the images from the local list
         _images.RemoveAll(images.Contains);
+        await _cache.SetAsync(CacheKey, _images, _cacheOptions, cancellationToken);
     }
 
     public async Task RemoveImageAsync(EcrBatchDelete images, CancellationToken cancellationToken = default)
@@ -39,25 +49,30 @@ public class EcrService
         await _ecrClient.RemoveImagesAsync(images, cancellationToken);
     }
 
-    public async Task<IEnumerable<ImageDetailsDto>> GetImagesAsync(CancellationToken cancellationToken = default)
+    private async Task<List<ImageDetailsDto>> GetImagesInnerAsync(CancellationToken cancellationToken = default)
     {
-        if (_images.Count != 0)
-        {
-            return _images;
-        }
+        var images = new List<ImageDetailsDto>();
         await foreach (var repository in _ecrClient.ListRepositoriesAsync(cancellationToken))
         {
             await foreach (var image in _ecrClient.ListImagesAsync(repository, cancellationToken))
             {
-                _images.Add(image);
+                images.Add(image);
             }
         }
+
+        return images;
+    }
+
+    public async Task<IEnumerable<ImageDetailsDto>> GetImagesAsync(CancellationToken cancellationToken = default)
+    {
+        _images = await _cache.GetOrSetAsync(CacheKey, GetImagesInnerAsync, _cacheOptions, cancellationToken);
 
         return _images;
     }
 
-    public void RefreshImages()
+    public async Task RefreshImages(CancellationToken cancellationToken = default)
     {
+        await _cache.RemoveAsync(CacheKey, _cacheOptions, cancellationToken);
         _images.Clear();
     }
 }
