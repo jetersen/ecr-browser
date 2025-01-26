@@ -4,13 +4,15 @@ namespace Ecr.Browser;
 
 public static class Extensions
 {
-    public static ImageDetailsDto ToDto(this ImageDetail imageDetail)
+    public static ImageDetailsDto ToDto(this ImageDetail imageDetail, string repositoryName)
     {
         return new()
         {
+            RepositoryName = repositoryName,
             ImageDigest = imageDetail.ImageDigest,
             ImageTags = imageDetail.ImageTags,
-            ImagePushedAt = imageDetail.ImagePushedAt,
+            ImageSize = new() { Size = imageDetail.ImageSizeInBytes ?? 0 },
+            ImagePushedAt = imageDetail.ImagePushedAt ?? DateTime.MinValue,
             ImagePulledAt = imageDetail.LastRecordedPullTime,
         };
     }

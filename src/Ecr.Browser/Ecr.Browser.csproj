@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.ECR" Version="4.0.0-preview.5" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="4.0.0-preview.5" />
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
   </ItemGroup>
 
 </Project>
