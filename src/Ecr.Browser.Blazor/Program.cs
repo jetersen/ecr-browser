@@ -1,14 +1,41 @@
+using System.Text.Json;
 using Amazon.ECR;
 using Ecr.Browser;
 using Ecr.Browser.Blazor;
 using MudBlazor.Services;
 using Ecr.Browser.Blazor.Components;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+builder.AddRedisDistributedCache("cache");
+builder.Services.AddFusionCache()
+    .WithSerializer(_ =>
+        {
+            var jsonSerializerOptions = new JsonSerializerOptions();
+            jsonSerializerOptions.TypeInfoResolverChain.Add(OurJsonContext.Default);
+            return new FusionCacheSystemTextJsonSerializer(jsonSerializerOptions);
+        })
+    .WithRegisteredDistributedCache();
+
 // Add MudBlazor services
 builder.Services.AddMudServices();
+builder.Services.AddOpenTelemetry()
+    .WithTracing(b => b.AddFusionCacheInstrumentation(o =>
+    {
+        o.IncludeMemoryLevel = true;
+    })).WithMetrics(b =>
+    {
+        b.AddFusionCacheInstrumentation(o =>
+        {
+            o.IncludeMemoryLevel = true;
+            o.IncludeDistributedLevel = true;
+        });
+    });
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

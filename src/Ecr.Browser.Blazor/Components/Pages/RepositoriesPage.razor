@@ -12,8 +12,8 @@
         <MudItem xs="4">
             <MudText Typo="Typo.h6">Total Size: @_totalSize.Bytes().ToString()</MudText>
         </MudItem>
-        <MudItem xs="6">
-            <MudSelect T="int" Label="Filter by Month" ValueChanged="i => OnFilter(i)">
+        <MudItem xs="4">
+            <MudSelect Label="Filter by Month" @bind-Value="_filterByMonth" @bind-Value:after="OnFilter">
                 <MudSelectItem Value="0">Now</MudSelectItem>
                 <MudSelectItem Value="1">Older than 1 month</MudSelectItem>
                 <MudSelectItem Value="3">Older than 3 months</MudSelectItem>
@@ -22,9 +22,14 @@
                 <MudSelectItem Value="12">Older than 1 year</MudSelectItem>
             </MudSelect>
         </MudItem>
-        <MudItem xs="6">
-            <MudCheckBox @bind-Value="_includeOnlyOne" @bind-Value:after="OnInclude">Include repositories with only 1
-                image
+        <MudItem xs="4">
+            <MudCheckBox @bind-Value="_includeOnlyOne" @bind-Value:after="OnFilter">
+                Include repositories with only 1 image
+            </MudCheckBox>
+        </MudItem>
+        <MudItem xs="4">
+            <MudCheckBox @bind-Value="_skipFirstOne" @bind-Value:after="OnFilter">
+                Skip the first image in each repository
             </MudCheckBox>
         </MudItem>
         @if (_showDeleteProgress)
@@ -99,7 +104,7 @@
         </MudItem>
 
         <MudItem xs="12">
-            <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-3 ml-3" OnClick="RefreshData">
+            <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-3 ml-3" OnClick="_ => RefreshData()">
                 Refresh Data
             </MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3 ml-3"
@@ -111,7 +116,7 @@
                 Collapse all repositories
             </MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Error" Class="mt-3 ml-3"
-                       OnClick="RemoveImagesAsync">
+                       OnClick="_ => RemoveImagesAsync()">
                 Remove Selected Images
             </MudButton>
         </MudItem>
