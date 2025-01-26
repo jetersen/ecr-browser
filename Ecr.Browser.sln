@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser", "src\Ecr.Brow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser.Blazor", "src\Ecr.Browser.Blazor\Ecr.Browser.Blazor.csproj", "{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser.AppHost", "src\Ecr.Browser.AppHost\Ecr.Browser.AppHost.csproj", "{69001821-FF8A-41A3-AC20-B875A5A02006}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecr.Browser.ServiceDefaults", "src\Ecr.Browser.ServiceDefaults\Ecr.Browser.ServiceDefaults.csproj", "{C6D3C3E8-A02C-432D-B1C4-DA008D8B8D8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,19 @@ Global
 		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69001821-FF8A-41A3-AC20-B875A5A02006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69001821-FF8A-41A3-AC20-B875A5A02006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69001821-FF8A-41A3-AC20-B875A5A02006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69001821-FF8A-41A3-AC20-B875A5A02006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D3C3E8-A02C-432D-B1C4-DA008D8B8D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D3C3E8-A02C-432D-B1C4-DA008D8B8D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D3C3E8-A02C-432D-B1C4-DA008D8B8D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D3C3E8-A02C-432D-B1C4-DA008D8B8D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DE0359E6-9149-43C9-85DA-0001A0E6AC1E} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
 		{517F6AF2-FCDA-4059-981C-0AEBC7E148E1} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
+		{69001821-FF8A-41A3-AC20-B875A5A02006} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
+		{C6D3C3E8-A02C-432D-B1C4-DA008D8B8D8D} = {3BDD11ED-1B05-4695-8D70-81701A1D77A0}
 	EndGlobalSection
 EndGlobal
