@@ -57,7 +57,7 @@ The application follows a multi-project structure:
 1. **Clone the repository:**
 
     ```bash
-    git clone github.
+    git clone https://github.com/jetersen/ecr-browser.git
     cd ecr-browser
     ```
 
