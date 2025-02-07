@@ -49,7 +49,7 @@ The application follows a multi-project structure:
 
 - .NET 9 SDK
 - AWS Account
-- AWS CLI configured with appropriate credentials to access ECR
+- AWS IAM Role with appropriate credentials to access ECR
 - Docker (if running locally)
 
 ## Getting Started
